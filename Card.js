@@ -17,6 +17,9 @@ const Shape = {
   oval: "oval",
   squiggle: "sqiggle",
 };
+const shapes = Object.values(Shape);
+
+const numbers = [1, 2, 3];
 
 class Card {
   constructor(number, shape, color, pattern) {
