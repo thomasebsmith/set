@@ -5,14 +5,7 @@
     <title>Set</title>
   </head>
   <body>
-    <canvas width="250" height="150"></canvas>
+    <script src="Card.js"></script>
     <script src="draw.js"></script>
-    <script>
-      const ctx = document.querySelector("canvas").getContext("2d");
-      ctx.lineWidth = 3;
-      drawDiamond(ctx, [Color.red, Fill.striped], 0, 0, 50, 100);
-      drawOval(ctx, [Color.green, Fill.empty], 75, 0, 50, 100);
-      drawSquiggly(ctx, [Color.purple, Fill.solid], 150, 0, 50, 100);
-    </script>
   </body>
 </html>
