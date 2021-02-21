@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Set</title>
+  </head>
+  <body>
+    <canvas width="250" height="150"></canvas>
+    <script src="draw.js"></script>
+    <script>
+      const ctx = document.querySelector("canvas").getContext("2d");
+      ctx.fillStyle = "red";
+      drawDiamond(ctx, 0, 0, 50, 100);
+      drawOval(ctx, 75, 0, 50, 100);
+      drawSquiggly(ctx, 150, 0, 50, 100);
+    </script>
+  </body>
+</html>
