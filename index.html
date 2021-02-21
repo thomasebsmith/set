@@ -9,10 +9,10 @@
     <script src="draw.js"></script>
     <script>
       const ctx = document.querySelector("canvas").getContext("2d");
-      ctx.fillStyle = "red";
-      drawDiamond(ctx, 0, 0, 50, 100);
-      drawOval(ctx, 75, 0, 50, 100);
-      drawSquiggly(ctx, 150, 0, 50, 100);
+      ctx.lineWidth = 3;
+      drawDiamond(ctx, [Color.red, Fill.striped], 0, 0, 50, 100);
+      drawOval(ctx, [Color.green, Fill.empty], 75, 0, 50, 100);
+      drawSquiggly(ctx, [Color.purple, Fill.solid], 150, 0, 50, 100);
     </script>
   </body>
 </html>
