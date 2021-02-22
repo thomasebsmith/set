@@ -2,11 +2,68 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Set</title>
+    <link rel="stylesheet" href="styles/main.css">
   </head>
   <body>
-    <script src="Card.js"></script>
-    <script src="Deck.js"></script>
-    <script src="draw.js"></script>
+    <header>
+      <h1>Set</h1>
+      <nav>
+        <ul class="tabs">
+          <li class="selected"><a href="index.html">Home</a></li>
+          <li><a href="play.html">Play</a></li>
+          <li><a href="puzzles.html">Puzzles</a></li>
+          <li><a href="stats.html">My Stats</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <article class="main">
+      <section class="controls">
+        <button data-starts-new-game role="link">New Game</button>
+      </section>
+
+      <section class="games">
+        <div>
+          <h2>In-progress games</h2>
+          <table class="in-progress-games">
+            <tr>
+              <th>Date</th>
+              <th>Type</th>
+              <th>Left</th>
+            </tr>
+            <tr>
+              <td>2021-02-21</td>
+              <td>Classic</td>
+              <td>21 cards</td>
+            </tr>
+          </table>
+        </div>
+        <div>
+          <h2>Game history</h2>
+          <table class="game-history">
+            <tr>
+              <th>Date</th>
+              <th>Type</th>
+              <th>Time</th>
+            </tr>
+            <tr>
+              <td>2021-02-21</td>
+              <td>Classic</td>
+              <td>00:12:00</td>
+            </tr>
+            <tr>
+              <td>2021-02-20</td>
+              <td>Classic</td>
+              <td>00:13:05</td>
+            </tr>
+          </table>
+        </div>
+      </section>
+    </article>
+
+    <script src="scripts/state.js"></script>
+    <script src="scripts/dom.js"></script>
   </body>
 </html>
