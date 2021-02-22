@@ -1,4 +1,6 @@
 class Deck {
+  static _jsonVersion = 0;
+
   constructor() {
     this.reset();
   }
@@ -36,5 +38,23 @@ class Deck {
       throw Error("Cannot draw from empty deck");
     }
     return this._cards.pop();
+  }
+
+  toJSON() {
+    return {
+      cards: this._cards.map(card => card.toJSON()),
+      jsonVersion: Deck._jsonVersion,
+    };
+  }
+
+  static fromJSON(json) {
+    if (json.jsonVersion !== 0) {
+      throw Error("Invalid JSON version");
+    }
+
+    // Use Object.create for performance. See note in Game.js.
+    const deck = Object.create(Deck.prototype);
+    deck._cards = json.cards.map(json => Card.fromJSON(json));
+    return deck;
   }
 }
