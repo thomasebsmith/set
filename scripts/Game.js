@@ -2,6 +2,7 @@ class Game {
   static _jsonVersion = 0;
 
   constructor(createDeck = true) {
+    this._completed = false;
     this._completedSets = [];
     this._deck = new Deck();
     this._deck.shuffle();
@@ -22,6 +23,10 @@ class Game {
     this._currStartTime = null;
   }
 
+  completed() {
+    return this._completed;
+  }
+
   get secondsElapsed() {
     const secondsElapsed = this._prevSecondsElapsed;
     if (this._currStartTime !== null) {
@@ -36,6 +41,7 @@ class Game {
 
   toJSON() {
     return {
+      completed: this.completed,
       completedSets: this._completedSets.map(set => set.toJSON()),
       deck: this._deck.toJSON(),
       layout: this._layout.map(row => row.map(card => card.toJSON())),
@@ -52,6 +58,7 @@ class Game {
     // Use Object.create instead of the constructor for performance (so we
     //  don't have to create and layout an entire deck).
     const game = Object.create(Game.prototype);
+    game._completed = json.completed;
     game._completedSets = json.completedSets.map(json =>
       CardSet.fromJSON(json));
     game._deck = Deck.fromJSON(json.deck);
