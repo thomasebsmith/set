@@ -1,17 +1,17 @@
-const draw = (function(global) {
-  const _stripedPatterns = {};
+window.draw = (function(global) {
+  const stripedPatterns = Object.create(null);
 
   function getStripedPattern(color) {
-    if (!_stripedPatterns.hasOwnProperty(color)) {
+    if (!Object.hasOwnProperty.call(stripedPatterns, color)) {
       const canvas = global.document.createElement("canvas");
       canvas.setAttribute("width", 1);
       canvas.setAttribute("height", 4);
       const tempCtx = canvas.getContext("2d");
       tempCtx.fillStyle = color;
       tempCtx.fillRect(0, 0, 1, 2);
-      _stripedPatterns[color] = tempCtx.createPattern(canvas, "repeat");
+      stripedPatterns[color] = tempCtx.createPattern(canvas, "repeat");
     }
-    return _stripedPatterns[color];
+    return stripedPatterns[color];
   };
 
   function setStyle(ctx, color, pattern) {
@@ -79,7 +79,7 @@ const draw = (function(global) {
   }
 
   function drawShape(ctx, shape, x, y, width, height) {
-    switch (card.shape) {
+    switch (shape) {
       case Shape.diamond:
         drawDiamond(ctx, x, y, width, height);
         break;
@@ -90,11 +90,18 @@ const draw = (function(global) {
         drawSquiggle(ctx, x, y, width, height);
         break;
       default:
-        throw Error("Unexpected shape" + card.shape);
+        throw Error("Unexpected shape" + shape);
     }
   }
 
+  const cardCache = Object.create(null);
   function drawCard(card, callback) {
+    const cardStringID = global.JSON.stringify(card.toJSON());
+    if (Object.prototype.hasOwnProperty.call(cardCache, cardStringID)) {
+      callback(cardCache[cardStringID]);
+      return;
+    }
+
     const cardWidth = 190;
     const cardHeight = 100;
     const shapeWidth = 50;
@@ -132,10 +139,11 @@ const draw = (function(global) {
       default:
         throw Error("Unexpected number" + card.number);
     }
-    document.body.appendChild(canvas);
 
     canvas.toBlob((blob) => {
-      callback(URL.createObjectURL(blob));
+      const url = URL.createObjectURL(blob);
+      cardCache[cardStringID] = url;
+      callback(url);
     }, "image/png");
   }
 

@@ -10,11 +10,13 @@ class CardSet {
 
   _isValidAttr(attr) {
     const attrSet = new Set(this._cards.map(card => card[attr]));
-    return attrSet.size === this._cards.length || attrSet.length === 1;
+    return attrSet.size === this._cards.length || attrSet.size === 1;
   }
 
   isValid() {
-    return ["number", "shape", "color", "pattern"].map(this._isValidAttr);
+    return ["number", "shape", "color", "pattern"].every(
+      (attr) => this._isValidAttr(attr)
+    );
   }
 
   toJSON() {

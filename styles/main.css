@@ -98,3 +98,17 @@ td, th {
   padding: 3px;
   text-align: left;
 }
+
+/* CURRENT GAME */
+.current-game {
+  display: grid;
+  grid-template-columns: repeat(3, min-content);
+  margin-left: auto;
+  margin-right: auto;
+  width: min-content;
+}
+
+.current-game > * {
+  border: 1px solid lightgray;
+  padding: 20px;
+}

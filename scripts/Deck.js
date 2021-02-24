@@ -29,8 +29,12 @@ class Deck {
     }
   }
 
+  get length() {
+    return this._cards.length;
+  }
+
   get empty() {
-    return this._cards.length === 0;
+    return this.length === 0;
   }
 
   drawOne() {

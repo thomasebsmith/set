@@ -6,19 +6,34 @@ class Profile {
 
   constructor(name) {
     this._name = name + "";
-    this._completedGames = [];
-    this._inProgressGames = [];
+    this._completedGameIDs = [];
+    this._inProgressGameIDs = [];
+    this._games = [];
   }
 
   get name() {
     return this._name;
   }
 
+  createGame() {
+    const id = this._games.push(new Game(this._games.length)) - 1;
+    this._inProgressGameIDs.push(id);
+    return id;
+  }
+
+  getGame(id) {
+    if (id >= this._games.length) {
+      return null;
+    }
+    return this._games[id];
+  }
+
   toJSON() {
     return {
       name: this.name,
-      completedGames: this._completedGames.map(game => game.toJSON()),
-      inProgressGames: this._inProgressGames.map(game => game.toJSON()),
+      completedGameIDs: this._completedGameIDs,
+      inProgressGameIDs: this._inProgressGameIDs,
+      games: this._games.map(game => game.toJSON()),
       jsonVersion: Profile._jsonVersion,
     };
   }
@@ -29,12 +44,9 @@ class Profile {
     }
 
     const profile = new Profile(json.name);
-    profile._completedGames = json.completedGames.map(json =>
-      Game.fromJSON(json)
-    );
-    profile._inProgressGames = json.inProgressGames.map(json =>
-      Game.fromJSON(json)
-    );
+    profile._completedGameIDs = json.completedGameIDs;
+    profile._inProgressGameIDs = json.inProgressGameIDs;
+    profile._games = json.games.map(json => Game.fromJSON(json));
     return profile;
   }
 

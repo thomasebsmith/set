@@ -1,7 +1,10 @@
 class Game {
   static _jsonVersion = 0;
+  static minCards = 12;
 
-  constructor(createDeck = true) {
+  constructor(id) {
+    this._id = id;
+
     this._completed = false;
     this._completedSets = [];
     this._deck = new Deck();
@@ -23,7 +26,7 @@ class Game {
     this._currStartTime = null;
   }
 
-  completed() {
+  get completed() {
     return this._completed;
   }
 
@@ -35,8 +38,60 @@ class Game {
     return secondsElapsed;
   }
 
+  get deckSize() {
+    return this._deck.length;
+  }
+
   layoutCards() {
-    // TODO: Layout cards until a set exists
+    // TODO: Make this more efficient
+    const cardsPerLayout = 3;
+    while (this._layout.length < Game.minCards || !this.setExists()) {
+      if (this._deck.empty && !this.setExists()) {
+        this.pause();
+        this._completed = true;
+        return;
+      }
+      for (let i = 0; i < cardsPerLayout && !this._deck.empty; ++i) {
+        this._layout.push(this._deck.drawOne());
+      }
+    }
+  }
+
+  setExists() {
+    // TODO: Make this more efficient
+    for (let card1 = 0; card1 < this._layout.length; ++card1) {
+      for (let card2 = card1 + 1; card2 < this._layout.length; ++card2) {
+        for (let card3 = card2 + 1; card3 < this._layout.length; ++card3) {
+          if (new CardSet([
+              this._layout[card1],
+              this._layout[card2],
+              this._layout[card3]
+          ]).isValid()) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+
+  trySet(cardIndexes) {
+    cardIndexes = cardIndexes.slice();
+    cardIndexes.sort((left, right) => left - right);
+    const set = new CardSet(cardIndexes.map(index => this._layout[index]));
+    if (!set.isValid()) {
+      return false;
+    }
+    this._completedSets.push(set);
+    for (const index of cardIndexes) {
+      this._layout.splice(index, 1);
+    }
+    this.layoutCards();
+    return true;
+  }
+
+  getLayout() {
+    return this._layout;
   }
 
   toJSON() {
@@ -44,7 +99,8 @@ class Game {
       completed: this.completed,
       completedSets: this._completedSets.map(set => set.toJSON()),
       deck: this._deck.toJSON(),
-      layout: this._layout.map(row => row.map(card => card.toJSON())),
+      id: this._id,
+      layout: this._layout.map(card => card.toJSON()),
       secondsElapsed: this.secondsElapsed,
       jsonVersion: Game._jsonVersion,
     }
@@ -62,7 +118,8 @@ class Game {
     game._completedSets = json.completedSets.map(json =>
       CardSet.fromJSON(json));
     game._deck = Deck.fromJSON(json.deck);
-    game._layout = json.layout.map(row => row.map(json => Card.fromJSON(row)));
+    game._id = json.id;
+    game._layout = json.layout.map(json => Card.fromJSON(json));
     game._prevSecondsElapsed = json.secondsElapsed;
     return game;
   }
