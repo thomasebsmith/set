@@ -1,10 +1,11 @@
 class CardSet {
   static _jsonVersion = 0;
+  static size = 3;
 
   constructor(cards) {
     this._cards = cards;
-    if (this._cards.length !== 3) {
-      throw Error("All sets must have 3 cards");
+    if (this._cards.length !== CardSet.size) {
+      throw Error(`All sets must have ${CardSet.size} cards`);
     }
   }
 

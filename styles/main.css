@@ -108,7 +108,15 @@ td, th {
   width: min-content;
 }
 
-.current-game > * {
-  border: 1px solid lightgray;
+/* CARDS */
+.card {
+  outline: 1px solid lightgray;
+  outline-offset: -0.5px;
   padding: 20px;
+}
+
+.card.selected {
+  outline: 3px solid black;
+  outline-offset: -1.5px;
+  z-index: 1;
 }

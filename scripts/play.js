@@ -1,14 +1,62 @@
 (function(global) {
   const doc = global.document;
+  const currentGameEl = doc.querySelector(".current-game");
+  const gameTimerEl = doc.querySelector(".game-timer");
+
+  function zeroPad(num, minDigits) {
+    num += "";
+    if (num.length < minDigits) {
+      num = "0".repeat(minDigits - num.length) + num;
+    }
+    return num;
+  }
+
+  function updateGameTimer(game) {
+    let time = Math.round(game.secondsElapsed);
+
+    const seconds = time % 60;
+    time = Math.floor(time / 60);
+    const minutes = time % 60;
+    time = Math.floor(time / 60);
+    const hours = time;
+
+    gameTimerEl.textContent =
+      `${hours}:${zeroPad(minutes, 2)}:${zeroPad(seconds, 2)}`;
+  }
 
   function showGame(game) {
-    const currentGameEl = doc.querySelector(".current-game");
-    for (const card of game.getLayout()) {
+
+    let selectedCardIndexes = new Set();
+
+    currentGameEl.textContent = "";
+
+    for (let i = 0; i < game.getLayout().length; ++i) {
+      const card = game.getLayout()[i];
+
       const cardEl = doc.createElement("img");
+      cardEl.classList.add("card");
       global.draw(card, url => {
         cardEl.setAttribute("src", url);
       });
       currentGameEl.appendChild(cardEl);
+      cardEl.addEventListener("click", () => {
+        if (selectedCardIndexes.has(i)) {
+          selectedCardIndexes.delete(i);
+          cardEl.classList.remove("selected");
+        } else if (selectedCardIndexes.size < CardSet.size) {
+          selectedCardIndexes.add(i);
+          cardEl.classList.add("selected");
+          if (selectedCardIndexes.size === CardSet.size) {
+            if (game.trySet(selectedCardIndexes)) {
+              showGame(game);
+            } else {
+              selectedCardIndexes.clear();
+              document.querySelectorAll(".card.selected").forEach(el =>
+                el.classList.remove("selected"));
+            }
+          }
+        }
+      });
     }
   }
 
@@ -20,7 +68,9 @@
       if (game === null) {
         console.warn("Unable to find game with ID", gameID);
       } else {
+        game.start();
         showGame(game);
+        setInterval(() => updateGameTimer(game), 0.25 * 1000);
       }
     }
   }

@@ -55,9 +55,10 @@ class Profile {
     const key = Profile._storagePrefix + this.name;
     try {
       storage.setItem(key, JSON.stringify(this.toJSON()));
-    } catch (_) {
+    } catch (err) {
       // This error is probably due to running out of room in localStorage.
       //  (e.g., there is a 0-byte quota in some versions of mobile Safari).
+      console.warn("Error saving to storage", err);
       return false;
     }
     return true;
@@ -77,5 +78,12 @@ class Profile {
 window.currentProfile = Profile.fromStorage(Profile.defaultName);
 if (window.currentProfile === null) {
   window.currentProfile = new Profile(Profile.defaultName);
-  window.currentProfile.toStorage();
 }
+
+window.addEventListener("beforeunload", () => {
+  window.currentProfile.toStorage();
+});
+
+window.setInterval(() => {
+  window.currentProfile.toStorage();
+}, 15 * 1000);

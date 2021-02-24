@@ -31,7 +31,7 @@ class Game {
   }
 
   get secondsElapsed() {
-    const secondsElapsed = this._prevSecondsElapsed;
+    let secondsElapsed = this._prevSecondsElapsed;
     if (this._currStartTime !== null) {
       secondsElapsed += (new Date() - this._currStartTime) / 1000;
     }
@@ -76,8 +76,10 @@ class Game {
   }
 
   trySet(cardIndexes) {
-    cardIndexes = cardIndexes.slice();
-    cardIndexes.sort((left, right) => left - right);
+    cardIndexes = [...cardIndexes];
+
+    // Reverse sort card indexes. Useful for removal later.
+    cardIndexes.sort((left, right) => right - left);
     const set = new CardSet(cardIndexes.map(index => this._layout[index]));
     if (!set.isValid()) {
       return false;
@@ -121,6 +123,7 @@ class Game {
     game._id = json.id;
     game._layout = json.layout.map(json => Card.fromJSON(json));
     game._prevSecondsElapsed = json.secondsElapsed;
+    game._currStartTime = null;
     return game;
   }
 }
