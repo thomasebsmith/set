@@ -28,6 +28,10 @@ class Profile {
     return this._games[id];
   }
 
+  getInProgressGameIDs() {
+    return this._inProgressGameIDs;
+  }
+
   toJSON() {
     return {
       name: this.name,
