@@ -1,3 +1,4 @@
+// Enum representing the possible card colors.
 const Color = {
   red: "red",
   green: "green",
@@ -5,6 +6,7 @@ const Color = {
 };
 const colors = Object.values(Color);
 
+// Enum representing the possible card patterns.
 const Pattern = {
   solid: "solid",
   striped: "striped",
@@ -12,6 +14,7 @@ const Pattern = {
 };
 const patterns = Object.values(Pattern);
 
+// Enum representing the possible card shapes.
 const Shape = {
   diamond: "diamond",
   oval: "oval",
@@ -19,11 +22,15 @@ const Shape = {
 };
 const shapes = Object.values(Shape);
 
+// The possible card numbers.
 const numbers = [1, 2, 3];
 
 class Card {
+  // Used internally for serialization.
   static _jsonVersion = 0;
 
+  // Creates a Card with the given parameters.
+  // Each argument should be from its corresponding enum.
   constructor(number, shape, color, pattern) {
     this._number = number;
     this._shape = shape;
@@ -31,6 +38,7 @@ class Card {
     this._pattern = pattern;
   }
 
+  // Getters
   get number() {
     return this._number;
   }
@@ -44,6 +52,7 @@ class Card {
     return this._pattern;
   }
 
+  // Serializes this Card to a JSON-compatible object.
   toJSON() {
     return {
       number: this.number,
@@ -54,6 +63,8 @@ class Card {
     };
   }
 
+  // Deserializes a Card from the object `json`.
+  // This is the inverse of `toJSON()`.
   static fromJSON(json) {
     if (json.jsonVersion !== 0) {
       throw Error("Invalid JSON version");
