@@ -5,8 +5,8 @@ website. The website is accessible
 
 ## Features
 - Basic gameplay
-- View in progress games
-- View game history
+- Ability to view in progress games
+- Ability to view game history
 - Puzzles (coming soon)
 - Game analysis (not yet implemented)
 
