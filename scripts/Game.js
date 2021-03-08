@@ -11,6 +11,8 @@ class Game {
     this._deck.shuffle();
     this._layout = [];
 
+    this._startTime = null;
+    this._endTime = null;
     this._currStartTime = null;
     this._prevSecondsElapsed = 0;
 
@@ -18,6 +20,7 @@ class Game {
   }
 
   start() {
+    this._startTime = new Date();
     this._currStartTime = new Date();
   }
 
@@ -28,6 +31,14 @@ class Game {
 
   get completed() {
     return this._completed;
+  }
+
+  get endTime() {
+    return this._endTime;
+  }
+
+  get startTime() {
+    return this._startTime;
   }
 
   get secondsElapsed() {
@@ -49,6 +60,7 @@ class Game {
       if (this._deck.empty && !this.setExists()) {
         this.pause();
         this._completed = true;
+        this._endTime = new Date();
         return;
       }
       for (let i = 0; i < cardsPerLayout && !this._deck.empty; ++i) {
@@ -97,15 +109,19 @@ class Game {
   }
 
   toJSON() {
+    const endTimeJSON = this.endTime === null ? null : this.endTime.toJSON();
+    const startTimeJSON = this.startTime === null ? null : this.startTime.toJSON();
     return {
       completed: this.completed,
       completedSets: this._completedSets.map(set => set.toJSON()),
       deck: this._deck.toJSON(),
+      endTime: endTimeJSON,
       id: this._id,
       layout: this._layout.map(card => card.toJSON()),
       secondsElapsed: this.secondsElapsed,
+      startTime: startTimeJSON,
       jsonVersion: Game._jsonVersion,
-    }
+    };
   }
 
   static fromJSON(json) {
@@ -120,6 +136,8 @@ class Game {
     game._completedSets = json.completedSets.map(json =>
       CardSet.fromJSON(json));
     game._deck = Deck.fromJSON(json.deck);
+    game._startTime = json.startTime === null ? null : new Date(json.startTime);
+    game._endTime = json.endTime === null ? null : new Date(json.endTime);
     game._id = json.id;
     game._layout = json.layout.map(json => Card.fromJSON(json));
     game._prevSecondsElapsed = json.secondsElapsed;
