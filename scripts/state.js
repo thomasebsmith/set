@@ -32,6 +32,10 @@ class Profile {
     return this._inProgressGameIDs;
   }
 
+  getCompletedGameIDs() {
+    return this._completedGameIDs;
+  }
+
   toJSON() {
     return {
       name: this.name,
