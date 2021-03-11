@@ -35,6 +35,7 @@
 
       const cardEl = doc.createElement("img");
       cardEl.classList.add("card");
+      cardEl.dataset.card = JSON.stringify(card);
       global.draw(card, url => {
         cardEl.setAttribute("src", url);
       });
