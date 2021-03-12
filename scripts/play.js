@@ -3,6 +3,7 @@
   const currentGameEl = doc.querySelector(".current-game");
   const gameTimerEl = doc.querySelector(".game-timer");
 
+  // Generic zero padding function.
   function zeroPad(num, minDigits) {
     num += "";
     if (num.length < minDigits) {
@@ -11,6 +12,7 @@
     return num;
   }
 
+  // Updates the game timer to read the time elapsed playing this game.
   function updateGameTimer(game) {
     let time = Math.round(game.secondsElapsed);
 
@@ -24,6 +26,7 @@
       `${hours}:${zeroPad(minutes, 2)}:${zeroPad(seconds, 2)}`;
   }
 
+  // Clears any previous game and shows `game` in the play area.
   function showGame(game) {
 
     let selectedCardIndexes = new Set();
@@ -61,6 +64,7 @@
     }
   }
 
+  // See if we should load a game.
   const query = global.parseQuery();
   if (query.game) {
     const gameID = parseInt(query.game, 10);
