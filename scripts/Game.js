@@ -19,28 +19,36 @@ class Game {
     this.layoutCards();
   }
 
+  // Starts a paused game. Games are initially paused.
   start() {
-    this._startTime = new Date();
+    if (this._startTime === null) {
+      this._startTime = new Date();
+    }
     this._currStartTime = new Date();
   }
 
+  // Pauses a started game. Games are initially paused.
   pause() {
     this._prevSecondsElapsed = this.secondsElapsed;
     this._currStartTime = null;
   }
 
+  // Whether a game is finished.
   get completed() {
     return this._completed;
   }
 
+  // The Date that the game was finished, or null.
   get endTime() {
     return this._endTime;
   }
 
+  // The Date that the game was first started, or null.
   get startTime() {
     return this._startTime;
   }
 
+  // How many seconds have been spent playing the game.
   get secondsElapsed() {
     let secondsElapsed = this._prevSecondsElapsed;
     if (this._currStartTime !== null) {
@@ -49,10 +57,12 @@ class Game {
     return secondsElapsed;
   }
 
+  // How many cards are left in the deck.
   get deckSize() {
     return this._deck.length;
   }
 
+  // Lays out cards until a set is possible or there are no more cards.
   layoutCards() {
     // TODO: Make this more efficient
     const cardsPerLayout = 3;
@@ -69,6 +79,7 @@ class Game {
     }
   }
 
+  // Whether a set exists on the current board.
   setExists() {
     // TODO: Make this more efficient
     for (let card1 = 0; card1 < this._layout.length; ++card1) {
@@ -87,6 +98,8 @@ class Game {
     return false;
   }
 
+  // Attempt to make a set with the cards at indexes cardIndexes.
+  // Requires that cardIndexes.length === 3.
   trySet(cardIndexes) {
     cardIndexes = [...cardIndexes];
 
@@ -104,10 +117,12 @@ class Game {
     return true;
   }
 
+  // The board layout.
   getLayout() {
     return this._layout;
   }
 
+  // Serializes the game.
   toJSON() {
     const endTimeJSON = this.endTime === null ? null : this.endTime.toJSON();
     const startTimeJSON = this.startTime === null ? null : this.startTime.toJSON();
@@ -124,6 +139,7 @@ class Game {
     };
   }
 
+  // Deserializes a game.
   static fromJSON(json) {
     if (json.jsonVersion !== 0) {
       throw Error("Invalid JSON version");
