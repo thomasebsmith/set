@@ -5,6 +5,7 @@ class Deck {
     this.reset();
   }
 
+  // Resets the deck to a (non-shuffled) array of all Set cards.
   reset() {
     this._cards = [];
     for (const number of numbers) {
@@ -18,6 +19,7 @@ class Deck {
     }
   }
 
+  // Randomly shuffles the deck using Math.random.
   shuffle() {
     // Using a Fisher-Yates shuffle
     for (let i = this._cards.length - 1; i >= 1; --i) {
@@ -29,14 +31,17 @@ class Deck {
     }
   }
 
+  // The number of cards in the deck.
   get length() {
     return this._cards.length;
   }
 
+  // Whether the deck is empty.
   get empty() {
     return this.length === 0;
   }
 
+  // Returns the next card in the deck. Throws an error if the deck is empty.
   drawOne() {
     if (this.empty) {
       throw Error("Cannot draw from empty deck");
@@ -44,6 +49,7 @@ class Deck {
     return this._cards.pop();
   }
 
+  // Returns a JSON-compatible object for serialization.
   toJSON() {
     return {
       cards: this._cards.map(card => card.toJSON()),
@@ -51,6 +57,8 @@ class Deck {
     };
   }
 
+  // Converts a JSON-compatible object (of the format outputted by toJSON) to
+  //  a Deck.
   static fromJSON(json) {
     if (json.jsonVersion !== 0) {
       throw Error("Invalid JSON version");
