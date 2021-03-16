@@ -1,9 +1,13 @@
+// Represents a user's profile (name, completed games, etc.)
+//  Note: Only one profile can exist right now (the default profile).
 class Profile {
   static _jsonVersion = 0;
   static _storagePrefix = "/set/profile-";
 
   static defaultName = "default";
 
+  // Creates a profile with the name `name` (and no in progress or completed
+  //  games).
   constructor(name) {
     this._name = name + "";
     this._completedGameIDs = [];
@@ -11,10 +15,12 @@ class Profile {
     this._games = [];
   }
 
+  // The name of the profile.
   get name() {
     return this._name;
   }
 
+  // Adds a new in progress game to this profile and returns its ID.
   createGame() {
     const id = this._games.push(new Game(this._games.length)) - 1;
     this._inProgressGameIDs.push(id);
