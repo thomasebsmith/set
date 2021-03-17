@@ -27,6 +27,7 @@ class Profile {
     return id;
   }
 
+  // Returns the Game with ID `id`.
   getGame(id) {
     if (id >= this._games.length) {
       return null;
@@ -34,14 +35,19 @@ class Profile {
     return this._games[id];
   }
 
+  // Returns an array of all IDs for games that are in progress. This array
+  //  should not be modified.
   getInProgressGameIDs() {
     return this._inProgressGameIDs;
   }
 
+  // Returns an array of all IDs for games that are completed. This array
+  //  should not be modified.
   getCompletedGameIDs() {
     return this._completedGameIDs;
   }
 
+  // Returns a JSON-compatible object for serialization.
   toJSON() {
     return {
       name: this.name,
@@ -52,6 +58,8 @@ class Profile {
     };
   }
 
+  // Creates a Profile from the JSON-compatible object `json`. `json` should be
+  //  of the form outputted by `toJSON()`.
   static fromJSON(json) {
     if (json.jsonVersion !== 0) {
       throw Error("Invalid JSON version");
@@ -64,6 +72,7 @@ class Profile {
     return profile;
   }
 
+  // Saves this Profile to local storage.
   toStorage() {
     const storage = window.localStorage;
     const key = Profile._storagePrefix + this.name;
@@ -78,6 +87,7 @@ class Profile {
     return true;
   }
 
+  // Retrieves the profile with name `name` from local storage.
   static fromStorage(name) {
     const storage = window.localStorage;
     const key = Profile._storagePrefix + name;
@@ -89,15 +99,18 @@ class Profile {
   }
 }
 
+// Attempt to load the default profile from local storage.
 window.currentProfile = Profile.fromStorage(Profile.defaultName);
 if (window.currentProfile === null) {
   window.currentProfile = new Profile(Profile.defaultName);
 }
 
+// Before this page is closed, save the current profile to local storage.
 window.addEventListener("beforeunload", () => {
   window.currentProfile.toStorage();
 });
 
+// Every 15 seconds, save the current profile to local storage.
 window.setInterval(() => {
   window.currentProfile.toStorage();
 }, 15 * 1000);
