@@ -1,6 +1,8 @@
 window.draw = (function(global) {
   const stripedPatterns = Object.create(null);
 
+  // Creates a striped pattern of the specified color. This can be used to
+  //  fill in various striped shapes of that color.
   function getStripedPattern(color) {
     if (!Object.hasOwnProperty.call(stripedPatterns, color)) {
       const canvas = global.document.createElement("canvas");
@@ -14,6 +16,7 @@ window.draw = (function(global) {
     return stripedPatterns[color];
   };
 
+  // Sets the current fill/stroke style to match the given color and pattern.
   function setStyle(ctx, color, pattern) {
     switch (pattern) {
       case Pattern.solid:
@@ -32,6 +35,8 @@ window.draw = (function(global) {
     }
   }
 
+  // Fills in and/or outlines the current shape with the given color and
+  //  pattern.
   function applyStyle(ctx, color, pattern) {
     switch (pattern) {
       case Pattern.solid:
@@ -47,6 +52,7 @@ window.draw = (function(global) {
     }
   }
 
+  // Draws a diamond with the specified origin and dimensions.
   function drawDiamond(ctx, x, y, width, height) {
     ctx.beginPath();
     ctx.moveTo(x + width / 2, y);
@@ -56,6 +62,7 @@ window.draw = (function(global) {
     ctx.closePath();
   }
 
+  // Draws an oval with the specified origin and dimensions.
   function drawOval(ctx, x, y, width, height) {
     ctx.beginPath();
     ctx.ellipse(x + width / 2, y + height / 4, width / 2, height / 4, 0, Math.PI, 0);
@@ -64,6 +71,7 @@ window.draw = (function(global) {
     ctx.closePath();
   }
 
+  // Draws a squiggle with the specified origin and dimensions.
   function drawSquiggle(ctx, x, y, width, height) {
     ctx.beginPath();
     ctx.moveTo(x + width / 20, y + height / 10);
@@ -78,6 +86,7 @@ window.draw = (function(global) {
     ctx.quadraticCurveTo(x - width * 0.05, y + height * 0.15, x + width * 0.05, y + height * 0.1);
   }
 
+  // Draws the given shape with the specified origin and dimensions.
   function drawShape(ctx, shape, x, y, width, height) {
     switch (shape) {
       case Shape.diamond:
@@ -94,6 +103,8 @@ window.draw = (function(global) {
     }
   }
 
+  // Draws card. callback is called with a blob URL that references an image
+  //  for card. Note: cards are cached for performance.
   const cardCache = Object.create(null);
   function drawCard(card, callback) {
     const cardStringID = global.JSON.stringify(card.toJSON());
