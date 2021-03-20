@@ -10,6 +10,17 @@ website. The website is accessible
 - Puzzles (coming soon)
 - Game analysis (not yet implemented)
 
+## Quick Start
+This repository contains pure HTML/JavaScript/CSS, so it can be hosted
+statically without any modifications.
+
+For example:
+```sh
+$ git clone https://github.com/thomasebsmith/set.git
+$ cd set/
+$ python3 -m http.server 8000
+```
+
 ## License
 This project is released as open-source software under the MIT license. See
 [LICENSE](./LICENSE) for details.
