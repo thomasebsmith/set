@@ -52,6 +52,23 @@ class Card {
     return this._pattern;
   }
 
+  equals(otherCard) {
+    return this.number === otherCard.number &&
+      this.shape === otherCard.shape &&
+      this.color === otherCard.color &&
+      this.pattern === otherCard.pattern;
+  }
+
+  // Get a random card.
+  static getRandom() {
+    return new Card(
+      shared.randomElement(numbers),
+      shared.randomElement(shapes),
+      shared.randomElement(colors),
+      shared.randomElement(patterns)
+    );
+  }
+
   // Serializes this Card to a JSON-compatible object.
   toJSON() {
     return {

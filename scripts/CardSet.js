@@ -28,8 +28,56 @@ class CardSet {
     );
   }
 
-  // Serializes this CardSet to a JSON-compatible
-  // object.
+  static _missingAttr(attrList, firstAttr, secondAttr) {
+    return attrList.find(x => x !== firstAttr && x !== secondAttr);
+  }
+
+  static _missingCard(firstCard, secondCard) {
+    return new Card(
+      CardSet._missingAttr(numbers, firstCard.number, secondCard.number),
+      CardSet._missingAttr(shapes, firstCard.shape, secondCard.shape),
+      CardSet._missingAttr(colors, firstCard.color, secondCard.color),
+      CardSet._missingAttr(patterns, firstCard.pattern, secondCard.pattern)
+    );
+  }
+
+  // Creates a random (valid) set.
+  static createRandomValid() {
+    const firstCard = Card.getRandom();
+
+    let secondCard;
+    do {
+      secondCard = Card.getRandom();
+    } while (secondCard.equals(firstCard));
+
+    const thirdCard = CardSet._missingCard(firstCard, secondCard);
+
+    return new CardSet([firstCard, secondCard, thirdCard]);
+  }
+
+  static createRandomInvalid() {
+    const firstCard = Card.getRandom();
+
+    let secondCard;
+    do {
+      secondCard = Card.getRandom();
+    } while (secondCard.equals(firstCard));
+
+    const wrongCard = CardSet._missingCard(firstCard, secondCard);
+
+    let thirdCard;
+    do {
+      thirdCard = Card.getRandom();
+    } while (
+      thirdCard.equals(firstCard) ||
+      thirdCard.equals(secondCard) ||
+      thirdCard.equals(wrongCard)
+    );
+
+    return new CardSet([firstCard, secondCard, thirdCard]);
+  }
+
+  // Serializes this CardSet to a JSON-compatible object.
   toJSON() {
     return {
       cards: this._cards.map(card => card.toJSON()),
@@ -37,8 +85,7 @@ class CardSet {
     };
   }
 
-  // Deserializes a CardSet from a JSON-compatible
-  // object.
+  // Deserializes a CardSet from a JSON-compatible object.
   static fromJSON(json) {
     if (json.jsonVersion !== 0) {
       throw Error("Invalid JSON version");
