@@ -7,7 +7,7 @@ website. The website is accessible
 - Basic gameplay
 - Ability to view in progress games
 - Ability to view game history, including game start and end times
-- Puzzles (coming soon)
+- Puzzles (in progress)
 - Game analysis (not yet implemented)
 
 ## Quick Start
@@ -20,6 +20,9 @@ $ git clone https://github.com/thomasebsmith/set.git
 $ cd set/
 $ python3 -m http.server 8000
 ```
+
+## Copyright
+Copyright 2021 Thomas Smith.
 
 ## License
 This project is released as open-source software under the MIT license. See
