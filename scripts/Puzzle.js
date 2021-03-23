@@ -1,7 +1,10 @@
 class Puzzle {
+  // 50% chance of any puzzle being a set.
+  static chanceOfSet = 0.5;
+
+  // Create a puzzle where the player must guess whether some cards form a set.
   constructor() {
-    // 50% chance of this puzzle being a set.
-    this.isSet = Math.random() >= 0.5;
+    this.isSet = Math.random() < chanceOfSet;
 
     if (this.isSet) {
       this.set = CardSet.createRandomValid();
