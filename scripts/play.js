@@ -3,15 +3,6 @@
   const currentGameEl = doc.querySelector(".current-game");
   const gameTimerEl = doc.querySelector(".game-timer");
 
-  // Generic zero padding function.
-  function zeroPad(num, minDigits) {
-    num += "";
-    if (num.length < minDigits) {
-      num = "0".repeat(minDigits - num.length) + num;
-    }
-    return num;
-  }
-
   // Updates the game timer to read the time elapsed playing this game.
   function updateGameTimer(game) {
     let time = Math.round(game.secondsElapsed);
@@ -23,7 +14,7 @@
     const hours = time;
 
     gameTimerEl.textContent =
-      `${hours}:${zeroPad(minutes, 2)}:${zeroPad(seconds, 2)}`;
+      `${hours}:${shared.zeroPad(minutes, 2)}:${shared.zeroPad(seconds, 2)}`;
   }
 
   // Clears any previous game and shows `game` in the play area.
