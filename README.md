@@ -14,15 +14,18 @@ website. The website is accessible
 This repository contains pure HTML/JavaScript/CSS, so it can be hosted
 statically without any modifications.
 
-For example:
+For example, with Python 3's basic HTTP server:
 ```sh
 $ git clone https://github.com/thomasebsmith/set.git
 $ cd set/
 $ python3 -m http.server 8000
 ```
 
+This project can also be hosted on GitHub Pages without modification from
+the master branch.
+
 ## Copyright
-Copyright 2021 Thomas Smith.
+Copyright © 2021 Thomas Smith.
 
 ## License
 This project is released as open-source software under the MIT license. See
