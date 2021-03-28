@@ -15,6 +15,12 @@ class CardSet {
     }
   }
 
+  // Returns an array of all the cards in this set. Note that this is a copy
+  //  of this CardSet's internal array.
+  getCards() {
+    return this._cards.slice();
+  }
+
   _isValidAttr(attr) {
     const attrSet = new Set(this._cards.map(card => card[attr]));
     return attrSet.size === this._cards.length || attrSet.size === 1;
@@ -29,7 +35,10 @@ class CardSet {
   }
 
   static _missingAttr(attrList, firstAttr, secondAttr) {
-    return attrList.find(x => x !== firstAttr && x !== secondAttr);
+    if (firstAttr !== secondAttr) {
+      return attrList.find(x => x !== firstAttr && x !== secondAttr);
+    }
+    return firstAttr;
   }
 
   static _missingCard(firstCard, secondCard) {

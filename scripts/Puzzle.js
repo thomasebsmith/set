@@ -4,7 +4,7 @@ class Puzzle {
 
   // Create a puzzle where the player must guess whether some cards form a set.
   constructor() {
-    this.isSet = Math.random() < chanceOfSet;
+    this.isSet = Math.random() < Puzzle.chanceOfSet;
 
     if (this.isSet) {
       this.set = CardSet.createRandomValid();
