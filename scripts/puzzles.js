@@ -1,10 +1,16 @@
 (function(global) {
   const doc = global.document;
+
   const currentPuzzleEl = doc.querySelector(".current-puzzle");
+  const isSetEl = doc.querySelector(".is-set");
+  const notASetEl = doc.querySelector(".not-a-set");
+
+  let currentPuzzle = null;
 
   function showPuzzle() {
-    const puzzle = new Puzzle();
-    const cards = puzzle.set.getCards();
+    currentPuzzle = new Puzzle();
+    currentPuzzleEl.textContent = "";
+    const cards = currentPuzzle.set.getCards();
     for (const card of cards) {
       const cardEl = doc.createElement("img");
       cardEl.classList.add("card");
@@ -15,6 +21,21 @@
       currentPuzzleEl.appendChild(cardEl);
     }
   }
+
+  function answerPuzzle(isSet) {
+    if (isSet !== currentPuzzle.isSet) {
+      // Incorrect answer, do nothing (for now, TODO).
+      return;
+    }
+    showPuzzle();
+  }
+
+  isSetEl.addEventListener("click", () => {
+    answerPuzzle(true);
+  });
+  notASetEl.addEventListener("click", () => {
+    answerPuzzle(false);
+  });
 
   showPuzzle();
 })(window);
