@@ -12,4 +12,11 @@ class Puzzle {
       this.set = CardSet.createRandomInvalid();
     }
   }
+
+  toJSON() {
+    return {
+      isSet: this.isSet,
+      set: this.set.toJSON(),
+    }
+  }
 }
