@@ -17,6 +17,13 @@ class Puzzle {
     return {
       isSet: this.isSet,
       set: this.set.toJSON(),
-    }
+    };
+  }
+  
+  static fromJSON(json) {
+    const puzzle = Object.create(Puzzle.prototype);
+    puzzle.isSet = json.isSet;
+    puzzle.set = CardSet.fromJSON(json.set);
+    return puzzle;
   }
 }
