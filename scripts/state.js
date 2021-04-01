@@ -13,6 +13,7 @@ class Profile {
     this._completedGameIDs = [];
     this._inProgressGameIDs = [];
     this._games = [];
+    this._completedPuzzles = [];
   }
 
   // The name of the profile.
@@ -47,6 +48,18 @@ class Profile {
     return this._completedGameIDs;
   }
 
+  // Adds puzzle to the array of completed puzzles. Returns the completed
+  //  puzzle ID.
+  completePuzzle(puzzle) {
+    return this._completedPuzzles.push(puzzle) - 1;
+  }
+
+  // Returns an array of all puzzles that are completed. This array
+  //  should not be modified.
+  getCompletedPuzzles() {
+    return this._completedPuzzles;
+  }
+
   // Returns a JSON-compatible object for serialization.
   toJSON() {
     return {
@@ -54,6 +67,7 @@ class Profile {
       completedGameIDs: this._completedGameIDs,
       inProgressGameIDs: this._inProgressGameIDs,
       games: this._games.map(game => game.toJSON()),
+      completedPuzzles: this._completedPuzzles.map(puzzle => puzzle.toJSON()),
       jsonVersion: Profile._jsonVersion,
     };
   }
@@ -69,6 +83,9 @@ class Profile {
     profile._completedGameIDs = json.completedGameIDs;
     profile._inProgressGameIDs = json.inProgressGameIDs;
     profile._games = json.games.map(json => Game.fromJSON(json));
+    profile._completedPuzzles = json.completedPuzzles.map(json =>
+      Puzzle.fromJSON(json)
+    );
     return profile;
   }
 
