@@ -13,6 +13,7 @@ class Puzzle {
     }
   }
 
+  // Create an object to be used for JSON serialization of this puzzle.
   toJSON() {
     return {
       isSet: this.isSet,
@@ -20,6 +21,8 @@ class Puzzle {
     };
   }
   
+  // Create a Puzzle from json, a json-compatible object of the format outputted
+  //  by toJSON().
   static fromJSON(json) {
     const puzzle = Object.create(Puzzle.prototype);
     puzzle.isSet = json.isSet;
