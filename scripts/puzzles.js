@@ -27,6 +27,7 @@
       // Incorrect answer, do nothing (for now, TODO).
       return;
     }
+    global.currentProfile.completePuzzle(currentPuzzle);
     showPuzzle();
   }
 
