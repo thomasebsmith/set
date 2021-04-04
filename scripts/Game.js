@@ -11,26 +11,19 @@ class Game {
     this._deck.shuffle();
     this._layout = [];
 
-    this._startTime = null;
-    this._endTime = null;
-    this._currStartTime = null;
-    this._prevSecondsElapsed = 0;
+    this._timer = new Timer();
 
     this.layoutCards();
   }
 
   // Starts a paused game. Games are initially paused.
   start() {
-    if (this._startTime === null) {
-      this._startTime = new Date();
-    }
-    this._currStartTime = new Date();
+    this._timer.start();
   }
 
   // Pauses a started game. Games are initially paused.
   pause() {
-    this._prevSecondsElapsed = this.secondsElapsed;
-    this._currStartTime = null;
+    this._timer.pause();
   }
 
   // Whether a game is finished.
@@ -40,21 +33,17 @@ class Game {
 
   // The Date that the game was finished, or null.
   get endTime() {
-    return this._endTime;
+    return this._timer.endTime;
   }
 
   // The Date that the game was first started, or null.
   get startTime() {
-    return this._startTime;
+    return this._timer.startTime;
   }
 
   // How many seconds have been spent playing the game.
   get secondsElapsed() {
-    let secondsElapsed = this._prevSecondsElapsed;
-    if (this._currStartTime !== null) {
-      secondsElapsed += (new Date() - this._currStartTime) / 1000;
-    }
-    return secondsElapsed;
+    return this._timer.secondsElapsed;
   }
 
   // How many cards are left in the deck.
@@ -124,17 +113,13 @@ class Game {
 
   // Serializes the game.
   toJSON() {
-    const endTimeJSON = this.endTime === null ? null : this.endTime.toJSON();
-    const startTimeJSON = this.startTime === null ? null : this.startTime.toJSON();
     return {
       completed: this.completed,
       completedSets: this._completedSets.map(set => set.toJSON()),
       deck: this._deck.toJSON(),
-      endTime: endTimeJSON,
       id: this._id,
       layout: this._layout.map(card => card.toJSON()),
-      secondsElapsed: this.secondsElapsed,
-      startTime: startTimeJSON,
+      timer: this._timer.toJSON(),
       jsonVersion: Game._jsonVersion,
     };
   }
@@ -152,12 +137,9 @@ class Game {
     game._completedSets = json.completedSets.map(json =>
       CardSet.fromJSON(json));
     game._deck = Deck.fromJSON(json.deck);
-    game._startTime = json.startTime === null ? null : new Date(json.startTime);
-    game._endTime = json.endTime === null ? null : new Date(json.endTime);
     game._id = json.id;
     game._layout = json.layout.map(json => Card.fromJSON(json));
-    game._prevSecondsElapsed = json.secondsElapsed;
-    game._currStartTime = null;
+    game._timer = Timer.fromJSON(json.timer);
     return game;
   }
 }
