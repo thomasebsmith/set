@@ -1,4 +1,6 @@
 class Puzzle {
+  static _jsonVersion = 0;
+
   // 50% chance of any puzzle being a set.
   static chanceOfSet = 0.5;
 
@@ -18,12 +20,16 @@ class Puzzle {
     return {
       isSet: this.isSet,
       set: this.set.toJSON(),
+      jsonVersion: Puzzle._jsonVersion,
     };
   }
   
   // Create a Puzzle from json, a json-compatible object of the format outputted
   //  by toJSON().
   static fromJSON(json) {
+    if (json.jsonVersion !== 0) {
+      throw Error("Invalid JSON version");
+    }
     const puzzle = Object.create(Puzzle.prototype);
     puzzle.isSet = json.isSet;
     puzzle.set = CardSet.fromJSON(json.set);
