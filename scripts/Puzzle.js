@@ -13,6 +13,8 @@ class Puzzle {
     } else {
       this.set = CardSet.createRandomInvalid();
     }
+
+    this._timer = new Timer();
   }
 
   // Create an object to be used for JSON serialization of this puzzle.
@@ -20,6 +22,7 @@ class Puzzle {
     return {
       isSet: this.isSet,
       set: this.set.toJSON(),
+      timer: this._timer.toJSON(),
       jsonVersion: Puzzle._jsonVersion,
     };
   }
@@ -33,6 +36,7 @@ class Puzzle {
     const puzzle = Object.create(Puzzle.prototype);
     puzzle.isSet = json.isSet;
     puzzle.set = CardSet.fromJSON(json.set);
+    puzzle._timer = Timer.fromJSON(json.timer);
     return puzzle;
   }
 }
