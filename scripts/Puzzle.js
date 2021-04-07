@@ -17,6 +17,18 @@ class Puzzle {
     this._timer = new Timer();
   }
 
+  start() {
+    this._timer.start();
+  }
+
+  pause() {
+    this._timer.pause();
+  }
+
+  get secondsElapsed() {
+    return this._timer.secondsElapsed;
+  }
+
   // Create an object to be used for JSON serialization of this puzzle.
   toJSON() {
     return {
