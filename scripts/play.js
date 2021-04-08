@@ -3,20 +3,6 @@
   const currentGameEl = doc.querySelector(".current-game");
   const gameTimerEl = doc.querySelector(".game-timer");
 
-  // Updates the game timer to read the time elapsed playing this game.
-  function updateGameTimer(game) {
-    let time = Math.round(game.secondsElapsed);
-
-    const seconds = time % 60;
-    time = Math.floor(time / 60);
-    const minutes = time % 60;
-    time = Math.floor(time / 60);
-    const hours = time;
-
-    gameTimerEl.textContent =
-      `${hours}:${shared.zeroPad(minutes, 2)}:${shared.zeroPad(seconds, 2)}`;
-  }
-
   // Clears any previous game and shows `game` in the play area.
   function showGame(game) {
 
@@ -66,7 +52,10 @@
       } else {
         game.start();
         showGame(game);
-        setInterval(() => updateGameTimer(game), 0.25 * 1000);
+        setInterval(
+          () => game._timer.updateTimerElement(gameTimerEl),
+          0.25 * 1000
+        );
       }
     }
   }

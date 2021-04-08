@@ -51,6 +51,20 @@ class Timer {
     };
   }
 
+  // Updates gameTimerEl to read the time elapsed playing this game.
+  updateTimerElement(gameTimerEl) {
+    let time = Math.round(game.secondsElapsed);
+
+    const seconds = time % 60;
+    time = Math.floor(time / 60);
+    const minutes = time % 60;
+    time = Math.floor(time / 60);
+    const hours = time;
+
+    gameTimerEl.textContent =
+      `${hours}:${shared.zeroPad(minutes, 2)}:${shared.zeroPad(seconds, 2)}`;
+  }
+
   static fromJSON(json) {
     if (json.jsonVersion !== 0) {
       throw Error("Invalid JSON version");
