@@ -53,7 +53,7 @@ class Timer {
 
   // Updates gameTimerEl to read the time elapsed playing this game.
   updateTimerElement(gameTimerEl) {
-    let time = Math.round(game.secondsElapsed);
+    let time = Math.round(this.secondsElapsed);
 
     const seconds = time % 60;
     time = Math.floor(time / 60);

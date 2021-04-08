@@ -11,39 +11,24 @@ class Game {
     this._deck.shuffle();
     this._layout = [];
 
-    this._timer = new Timer();
+    this.timer = new Timer();
 
     this.layoutCards();
   }
 
   // Starts a paused game. Games are initially paused.
   start() {
-    this._timer.start();
+    this.timer.start();
   }
 
   // Pauses a started game. Games are initially paused.
   pause() {
-    this._timer.pause();
+    this.timer.pause();
   }
 
   // Whether a game is finished.
   get completed() {
     return this._completed;
-  }
-
-  // The Date that the game was finished, or null.
-  get endTime() {
-    return this._timer.endTime;
-  }
-
-  // The Date that the game was first started, or null.
-  get startTime() {
-    return this._timer.startTime;
-  }
-
-  // How many seconds have been spent playing the game.
-  get secondsElapsed() {
-    return this._timer.secondsElapsed;
   }
 
   // How many cards are left in the deck.
@@ -119,7 +104,7 @@ class Game {
       deck: this._deck.toJSON(),
       id: this._id,
       layout: this._layout.map(card => card.toJSON()),
-      timer: this._timer.toJSON(),
+      timer: this.timer.toJSON(),
       jsonVersion: Game._jsonVersion,
     };
   }
@@ -139,7 +124,7 @@ class Game {
     game._deck = Deck.fromJSON(json.deck);
     game._id = json.id;
     game._layout = json.layout.map(json => Card.fromJSON(json));
-    game._timer = Timer.fromJSON(json.timer);
+    game.timer = Timer.fromJSON(json.timer);
     return game;
   }
 }

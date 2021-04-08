@@ -53,7 +53,7 @@
         game.start();
         showGame(game);
         setInterval(
-          () => game._timer.updateTimerElement(gameTimerEl),
+          () => game.timer.updateTimerElement(gameTimerEl),
           0.25 * 1000
         );
       }
