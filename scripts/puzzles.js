@@ -4,11 +4,13 @@
   const currentPuzzleEl = doc.querySelector(".current-puzzle");
   const isSetEl = doc.querySelector(".is-set");
   const notASetEl = doc.querySelector(".not-a-set");
+  const gameTimerEl = doc.querySelector(".game-timer");
 
   let currentPuzzle = null;
 
   function showPuzzle() {
     currentPuzzle = new Puzzle();
+    currentPuzzle.start();
     currentPuzzleEl.textContent = "";
     const cards = currentPuzzle.set.getCards();
     for (const card of cards) {
@@ -27,6 +29,7 @@
       // Incorrect answer, do nothing (for now, TODO).
       return;
     }
+    currentPuzzle.pause();
     global.currentProfile.completePuzzle(currentPuzzle);
     showPuzzle();
   }
@@ -39,4 +42,13 @@
   });
 
   showPuzzle();
+
+  setInterval(
+    () => {
+      if (currentPuzzle !== null) {
+        currentPuzzle.timer.updateTimerElement(gameTimerEl);
+      }
+    },
+    0.25 * 1000
+  );
 })(window);

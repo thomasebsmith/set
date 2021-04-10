@@ -31,7 +31,7 @@
         gameID + "",
         game.startTime.toLocaleDateString(),
         "Classic",
-        game.secondsElapsed + " seconds",
+        game.timer.secondsElapsed + " seconds",
       ];
       for (const prop of props) {
         const colEl = doc.createElement("td");
