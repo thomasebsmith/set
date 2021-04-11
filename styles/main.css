@@ -120,3 +120,8 @@ td, th {
   outline-offset: -1.5px;
   z-index: 1;
 }
+
+/* PUZZLES */
+button.wrong {
+  border-color: red;
+}

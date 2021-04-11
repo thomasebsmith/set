@@ -22,11 +22,17 @@
       });
       currentPuzzleEl.appendChild(cardEl);
     }
+
+    isSetEl.classList.remove("wrong");
+    notASetEl.classList.remove("wrong");
   }
 
   function answerPuzzle(isSet) {
     if (isSet !== currentPuzzle.isSet) {
-      // Incorrect answer, do nothing (for now, TODO).
+      // Incorrect answer
+      let wrongButton = isSet ? isSetEl : notASetEl;
+      wrongButton.classList.add("wrong");
+      global.setTimeout(() => wrongButton.classList.remove("wrong"), 1000);
       return;
     }
     currentPuzzle.pause();
@@ -43,7 +49,7 @@
 
   showPuzzle();
 
-  setInterval(
+  global.setInterval(
     () => {
       if (currentPuzzle !== null) {
         currentPuzzle.timer.updateTimerElement(gameTimerEl);
