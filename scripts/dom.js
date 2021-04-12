@@ -51,4 +51,64 @@
         global.encodeURIComponent(gameID);
     });
   });
+
+  let puzzleStats = null;
+  function getPuzzleStats() {
+    if (puzzleStats === null) {
+      const puzzles = global.currentProfile.getCompletedPuzzles();
+
+      let minTime = Infinity;
+      let maxTime = -Infinity;
+      let totalTime = 0;
+
+      puzzles.sort();
+
+      let medianTime = NaN;
+      if (puzzles.length % 2 === 0 && puzzles.length !== 0) {
+        medianTime = (puzzles[puzzles.length / 2 - 1].timer.secondsElapsed
+          + puzzles[puzzles.length / 2].timer.secondsElapsed);
+      } else if (puzzles.length % 2 === 1) {
+        medianTime = puzzles[(puzzles.length - 1) / 2];
+      }
+
+      for (const puzzle of puzzles) {
+        totalTime += puzzle.timer.secondsElapsed;
+        minTime = Math.min(minTime, puzzle.timer.secondsElapsed);
+        maxTime = Math.max(maxTime, puzzle.timer.secondsElapsed);
+      }
+
+      const meanTime = totalTime / puzzles.length;
+      const count = puzzles.length;
+
+      puzzleStats = {
+        count,
+        medianTime,
+        meanTime,
+        minTime,
+        maxTime,
+      };
+    }
+    return puzzleStats;
+  }
+
+  doc.querySelectorAll(".num-puzzles-completed").forEach(el => {
+    const stats = getPuzzleStats();
+    el.textContent = stats.count;
+  });
+  doc.querySelectorAll(".median-puzzle-time").forEach(el => {
+    const stats = getPuzzleStats();
+    el.textContent = stats.medianTime;
+  });
+  doc.querySelectorAll(".mean-puzzle-time").forEach(el => {
+    const stats = getPuzzleStats();
+    el.textContent = stats.meanTime;
+  });
+  doc.querySelectorAll(".minimum-puzzle-time").forEach(el => {
+    const stats = getPuzzleStats();
+    el.textContent = stats.minTime;
+  });
+  doc.querySelectorAll(".maximum-puzzle-time").forEach(el => {
+    const stats = getPuzzleStats();
+    el.textContent = stats.maxTime;
+  });
 })(window);
