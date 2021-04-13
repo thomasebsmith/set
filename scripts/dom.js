@@ -97,18 +97,18 @@
   });
   doc.querySelectorAll(".median-puzzle-time").forEach(el => {
     const stats = getPuzzleStats();
-    el.textContent = stats.medianTime;
+    el.textContent = `${stats.medianTime.toFixed(2)}s`;
   });
   doc.querySelectorAll(".mean-puzzle-time").forEach(el => {
     const stats = getPuzzleStats();
-    el.textContent = stats.meanTime;
+    el.textContent = `${stats.meanTime.toFixed(2)}s`;
   });
   doc.querySelectorAll(".minimum-puzzle-time").forEach(el => {
     const stats = getPuzzleStats();
-    el.textContent = stats.minTime;
+    el.textContent = `${stats.minTime.toFixed(2)}s`;
   });
   doc.querySelectorAll(".maximum-puzzle-time").forEach(el => {
     const stats = getPuzzleStats();
-    el.textContent = stats.maxTime;
+    el.textContent = `${stats.maxTime.toFixed(2)}s`;
   });
 })(window);
