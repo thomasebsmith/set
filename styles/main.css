@@ -67,19 +67,19 @@ button:active {
   text-decoration: underline;
 }
 
-/* GAMES */
-.games {
+/* STATS */
+.games, .puzzles {
   display: flex;
 }
 
-.games > div {
+.games > div, .puzzles > div {
   border: 1px solid lightgray;
   border-left: none;
   flex-grow: 1;
   padding: 10px;
 }
 
-.games > div:first-child {
+.games > div:first-child, .puzzles > div:first-child {
   border-left: 1px solid lightgray;
 }
 
