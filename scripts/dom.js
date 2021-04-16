@@ -4,6 +4,10 @@
   // Add all in progress games to any elements with the class
   //  in-progress-games. Each of these elements should be a <table>.
   doc.querySelectorAll(".in-progress-games").forEach(tableEl => {
+    if (global.currentProfile.getInProgressGameIDs().length === 0) {
+      tableEl.classList.add("empty");
+      return;
+    }
     for (const gameID of global.currentProfile.getInProgressGameIDs()) {
       const game = global.currentProfile.getGame(gameID);
       const rowEl = doc.createElement("tr");
@@ -24,6 +28,10 @@
   // Add all completed games to any elements with the class
   //  game-history. Each of these elements should be a <table>.
   doc.querySelectorAll(".game-history").forEach(tableEl => {
+    if (global.currentProfile.getCompletedGameIDs().length === 0) {
+      tableEl.classList.add("empty");
+      return;
+    }
     for (const gameID of global.currentProfile.getCompletedGameIDs()) {
       const game = global.currentProfile.getGame(gameID);
       const rowEl = doc.createElement("tr");
